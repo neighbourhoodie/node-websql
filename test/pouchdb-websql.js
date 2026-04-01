@@ -9,7 +9,6 @@ var inherits = _interopDefault(require('inherits'));
 var vuvuzela = _interopDefault(require('vuvuzela'));
 var events = require('events');
 var lie = _interopDefault(require('lie'));
-var getArguments = _interopDefault(require('argsarray'));
 var pouchdbCollections = require('pouchdb-collections');
 var crypto = _interopDefault(require('crypto'));
 var openDatabase = _interopDefault(require('../'));
@@ -751,7 +750,7 @@ var PouchPromise = typeof Promise === 'function' ? Promise : lie;
 
 function once(fun) {
   var called = false;
-  return getArguments(function (args) {
+  return function (...args) {
     /* istanbul ignore if */
     if (called) {
       // this is a smoke test and should never actually happen
@@ -760,12 +759,12 @@ function once(fun) {
       called = true;
       fun.apply(this, args);
     }
-  });
+  };
 }
 
 function toPromise(func) {
   //create the function we will be returning
-  return getArguments(function (args) {
+  return function (...args) {
     // Clone arguments
     args = clone(args);
     var self = this;
@@ -810,7 +809,7 @@ function toPromise(func) {
       }, usedCB);
     }
     return promise;
-  });
+  };
 }
 
 function atob(str) {
@@ -2422,7 +2421,7 @@ function WebSqlPouch(opts, callback) {
 
   function checkEncoding(tx, cb) {
     // UTF-8 on chrome/android, UTF-16 on safari < 7.1
-    tx.executeSql('SELECT HEX("a") AS hex', [], function (tx, res) {
+    tx.executeSql(`SELECT HEX('a') AS hex`, [], function (tx, res) {
         var hex = res.rows.item(0).hex;
         encoding = hex.length === 2 ? 'UTF-8' : 'UTF-16';
         cb();

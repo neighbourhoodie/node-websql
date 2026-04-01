@@ -9,8 +9,9 @@ is most useful in Node.js and other environments where you want to emulate WebSQ
 
 Install
 ----
-
-    npm install websql
+```
+npm install websql
+```
 
 Usage
 ----
