@@ -461,7 +461,7 @@ describe('basic test suite', function () {
             });
           }, function (err) {
             assert.equal(called, 4);
-            assert.equal(err.message, "SQLITE_CONSTRAINT: FOREIGN KEY constraint failed");
+            assert.equal(err.message, "FOREIGN KEY constraint failed");
           }, reject);
 
           db.transaction(function (txn) {
@@ -558,7 +558,7 @@ describe('dedicated db test suite - in-memory', function () {
       assert.equal(res.rowsAffected, 0, '1 rowsAffected == ' + res.rowsAffected);
       assert.equal(res.rows.length, 0, 'rows.length');
     }).then(function () {
-      var sql = 'INSERT INTO table1 VALUES ("foo", "bar")';
+      var sql = `INSERT INTO table1 VALUES ('foo', 'bar')`;
       return transactionPromise(db, sql);
     }).then(function (res) {
       assert.equal(getInsertId(res), 1, 'insertId 2');
@@ -584,7 +584,7 @@ describe('dedicated db test suite - in-memory', function () {
       assert.equal(res.rowsAffected, 0, 'rowsAffected');
       assert.equal(res.rows.length, 0, 'rows.length');
     }).then(function () {
-      var sql = 'INSERT INTO table1 VALUES ("baz", "quux")';
+      var sql = `INSERT INTO table1 VALUES ('baz', 'quux')`;
       return transactionPromise(db, sql);
     }).then(function (res) {
       assert.equal(getInsertId(res), 1, 'insertId');
@@ -610,25 +610,25 @@ describe('dedicated db test suite - in-memory', function () {
       assert.equal(res.rowsAffected, 0, 'rowsAffected');
       assert.equal(res.rows.length, 0, 'rows.length');
     }).then(function () {
-      var sql = 'INSERT INTO table1 VALUES ("baz", "quux")';
+      var sql = `INSERT INTO table1 VALUES ('baz', 'quux')`;
       return transactionPromise(db, sql);
     }).then(function (res) {
       assert.equal(getInsertId(res), 1, 'insertId');
       assert.equal(res.rowsAffected, 1, 'rowsAffected');
       assert.equal(res.rows.length, 0, 'rows.length');
-      var sql = 'INSERT INTO table1 VALUES ("toto", "haha")';
+      var sql = `INSERT INTO table1 VALUES ('toto', 'haha')`;
       return transactionPromise(db, sql);
     }).then(function (res) {
       assert.equal(getInsertId(res), 2);
       assert.equal(res.rowsAffected, 1, 'rowsAffected');
       assert.equal(res.rows.length, 0, 'rows.length');
-      var sql = 'UPDATE table1 SET text1 = "baz" WHERE text2 = "foobar";';
+      var sql = `UPDATE table1 SET text1 = 'baz' WHERE text2 = 'foobar';`;
       return transactionPromise(db, sql);
     }).then(function (res) {
       assert.equal(getInsertId(res), void 0, 'no insertId 1');
       assert.equal(res.rowsAffected, 0, 'rowsAffected');
       assert.equal(res.rows.length, 0, 'rows.length');
-      var sql = 'UPDATE table1 SET text1 = "bongo" WHERE text2 = "haha";';
+      var sql = `UPDATE table1 SET text1 = 'bongo' WHERE text2 = 'haha';`;
       return transactionPromise(db, sql);
     }).then(function (res) {
       assert.equal(getInsertId(res), void 0);
@@ -683,7 +683,7 @@ describe('dedicated db test suite - in-memory', function () {
       assert.equal(getInsertId(res), void 0);
       assert.equal(res.rowsAffected, 0);
       assert.equal(res.rows.length, 0);
-      var sql = 'INSERT INTO table1 VALUES ("toto", "haha")';
+      var sql = `INSERT INTO table1 VALUES ('toto', 'haha')`;
       return transactionPromise(db, sql);
     }).then(function () {
       var sql = 'DELETE FROM table1';
@@ -705,10 +705,10 @@ describe('dedicated db test suite - in-memory', function () {
       assert.equal(getInsertId(res), void 0);
       assert.equal(res.rowsAffected, 0);
       assert.equal(res.rows.length, 0);
-      var sql = 'INSERT INTO table1 VALUES ("toto", "haha")';
+      var sql = `INSERT INTO table1 VALUES ('toto', 'haha')`;
       return transactionPromise(db, sql);
     }).then(function () {
-      var sql = 'INSERT INTO table1 VALUES ("baz", "bar")';
+      var sql = `INSERT INTO table1 VALUES ('baz', 'bar')`;
       return transactionPromise(db, sql);
     }).then(function () {
       var sql = 'DELETE FROM table1';
@@ -737,7 +737,7 @@ describe('dedicated db test suite - in-memory', function () {
     var sql = 'CREATE TABLE table1 (text1 string, text2 string)';
     return transactionPromise(db, sql).then(function () {
     }).then(function () {
-      var sql = 'INSERT INTO table1 VALUES ("toto", "haha")';
+      var sql = `INSERT INTO table1 VALUES ('toto', 'haha')`;
       return transactionPromise(db, sql);
     }).then(function () {
       var sql = 'DROP TABLE table1';
@@ -753,10 +753,10 @@ describe('dedicated db test suite - in-memory', function () {
     var sql = 'CREATE TABLE table1 (text1 string, text2 string)';
     return transactionPromise(db, sql).then(function () {
     }).then(function () {
-      var sql = 'INSERT INTO table1 VALUES ("toto", "haha")';
+      var sql = `INSERT INTO table1 VALUES ('toto', 'haha')`;
       return transactionPromise(db, sql);
     }).then(function () {
-      var sql = 'INSERT INTO table1 VALUES ("baz", "bar")';
+      var sql = `INSERT INTO table1 VALUES ('baz', 'bar')`;
       return transactionPromise(db, sql);
     }).then(function () {
       var sql = 'DROP TABLE table1';
@@ -772,7 +772,7 @@ describe('dedicated db test suite - in-memory', function () {
     var sql = 'CREATE TABLE table1 (text1 string, text2 string)';
     return transactionPromise(db, sql).then(function () {
     }).then(function () {
-      var sql = 'INSERT INTO table1 VALUES ("toto", "haha")';
+      var sql = `INSERT INTO table1 VALUES ('toto', 'haha')`;
       return transactionPromise(db, sql);
     }).then(function () {
       var sql = 'SELECT * from table1';
@@ -792,10 +792,10 @@ describe('dedicated db test suite - in-memory', function () {
     var sql = 'CREATE TABLE table1 (text1 string, text2 string)';
     return transactionPromise(db, sql).then(function () {
     }).then(function () {
-      var sql = 'INSERT INTO table1 VALUES ("toto", "haha")';
+      var sql = `INSERT INTO table1 VALUES ('toto', 'haha')`;
       return transactionPromise(db, sql);
     }).then(function () {
-      var sql = 'INSERT INTO table1 VALUES ("quux", "haha")';
+      var sql = `INSERT INTO table1 VALUES ('quux', 'haha')`;
       return expectError(readTransactionPromise(db, sql));
     });
   });
@@ -804,10 +804,10 @@ describe('dedicated db test suite - in-memory', function () {
     var sql = 'CREATE TABLE table1 (text1 string, text2 string)';
     return transactionPromise(db, sql).then(function () {
     }).then(function () {
-      var sql = 'INSERT INTO table1 VALUES ("toto", "haha")';
+      var sql = `INSERT INTO table1 VALUES ('toto', 'haha')`;
       return transactionPromise(db, sql);
     }).then(function () {
-      var sql = 'INSERT INTO table1 VALUES ("quux", "haha")';
+      var sql = `INSERT INTO table1 VALUES ('quux', 'haha')`;
       return expectError(readTransactionPromise(db, sql));
     }).then(function () {
       var sql = 'SELECT * from table1';
@@ -855,7 +855,7 @@ describe('dedicated db test suite - actual DB', function () {
       var sql = 'CREATE TABLE table1 (text1 string, text2 string)';
       return transactionPromise(db1, sql);
     }).then(function () {
-      var sql = 'INSERT INTO table1 VALUES ("foo", "bar")';
+      var sql = `INSERT INTO table1 VALUES ('foo', 'bar')`;
       return transactionPromise(db1, sql);
     }).then(function () {
       var sql = 'SELECT * from table1;';
@@ -922,7 +922,7 @@ describe('advanced test suite - actual DB', function () {
         txn.executeSql('CREATE TABLE foo (bar text);', [], function () {
           called.push('a');
         });
-        txn.executeSql('INSERT INTO foo VALUES ("baz")', [], function () {
+        txn.executeSql(`INSERT INTO foo VALUES ('baz')`, [], function () {
           called.push('b');
         });
       }, function (err) {
@@ -942,17 +942,17 @@ describe('advanced test suite - actual DB', function () {
         txn.executeSql('CREATE TABLE foo (bar text);', [], function () {
           called.push('a');
         });
-        txn.executeSql('INSERT INTO foo VALUES ("baz")', [], function () {
+        txn.executeSql(`INSERT INTO foo VALUES ('baz')`, [], function () {
           called.push('b');
-          txn.executeSql('INSERT INTO yolo VALUES ("hey")', [], function () {
+          txn.executeSql(`INSERT INTO yolo VALUES ('hey')`, [], function () {
             called.push('z');
           }, function () {
             called.push('c');
-            txn.executeSql('INSERT INTO foo VALUES ("baz")', [], function () {
+            txn.executeSql(`INSERT INTO foo VALUES ('baz')`, [], function () {
               called.push('f');
             });
           });
-          txn.executeSql('INSERT INTO foo VALUES ("haha")', [], null, function () {
+          txn.executeSql(`INSERT INTO foo VALUES ('haha')`, [], null, function () {
             called.push('e');
           });
         });
@@ -973,17 +973,17 @@ describe('advanced test suite - actual DB', function () {
         txn.executeSql('CREATE TABLE table1 (bar text);', [], function () {
           called.push('a');
         });
-        txn.executeSql('INSERT INTO table1 VALUES ("buzz")', [], function () {
+        txn.executeSql(`INSERT INTO table1 VALUES ('buzz')`, [], function () {
           called.push('b');
           txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
             called.push({'a': rowsToJson(res)});
           });
-          txn.executeSql('INSERT INTO table1 VALUES ("hey")', [], null, function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('hey')`, [], null, function () {
             called.push('c');
             txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
               called.push({'d': rowsToJson(res)});
             });
-            txn.executeSql('INSERT INTO table1 VALUES ("baz")', [], function () {
+            txn.executeSql(`INSERT INTO table1 VALUES ('baz')`, [], function () {
               called.push('f');
               txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
                 called.push({'f': rowsToJson(res)});
@@ -996,7 +996,7 @@ describe('advanced test suite - actual DB', function () {
           txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
             called.push({'b': rowsToJson(res)});
           });
-          txn.executeSql('INSERT INTO table1 VALUES ("haha")', [], null, function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('haha')`, [], null, function () {
             called.push('e');
             txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
               called.push({'d': rowsToJson(res)});
@@ -1044,7 +1044,7 @@ describe('advanced test suite - actual DB', function () {
         txn.executeSql('CREATE TABLE table1 (bar text);', [], function () {
           called.push('a');
         });
-        txn.executeSql('INSERT INTO table1 VALUES ("buzz")', [], function () {
+        txn.executeSql(`INSERT INTO table1 VALUES ('buzz')`, [], function () {
           called.push('b');
           txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
             called.push({'a': rowsToJson(res)});
@@ -1054,7 +1054,7 @@ describe('advanced test suite - actual DB', function () {
             txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
               called.push({'d': rowsToJson(res)});
             });
-            txn.executeSql('INSERT INTO table1 VALUES ("baz")', [], function () {
+            txn.executeSql(`INSERT INTO table1 VALUES ('baz')`, [], function () {
               called.push('f');
               txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
                 called.push({'f': rowsToJson(res)});
@@ -1067,7 +1067,7 @@ describe('advanced test suite - actual DB', function () {
           txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
             called.push({'b': rowsToJson(res)});
           });
-          txn.executeSql('INSERT INTO table1 VALUES ("haha")', [], null, function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('haha')`, [], null, function () {
             called.push('e');
             txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
               called.push({'d': rowsToJson(res)});
@@ -1122,13 +1122,13 @@ describe('advanced test suite - actual DB', function () {
             called.push({'1': rowsToJson(res)});
           });
         });
-        txn.executeSql('INSERT INTO table1 VALUES ("a")', [], function () {
+        txn.executeSql(`INSERT INTO table1 VALUES ('a')`, [], function () {
           called.push('b');
           txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
             called.push({'2': rowsToJson(res)});
           });
         });
-        txn.executeSql('INSERT INTO table1 VALUES ("c")', [], function () {
+        txn.executeSql(`INSERT INTO table1 VALUES ('c')`, [], function () {
           called.push('c');
           txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
             called.push({'3': rowsToJson(res)});
@@ -1168,7 +1168,7 @@ describe('advanced test suite - actual DB', function () {
         txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
           called.push({'z': rowsToJson(res)});
         });
-        txn.executeSql('INSERT INTO table1 VALUES ("a")', [], function () {
+        txn.executeSql(`INSERT INTO table1 VALUES ('a')`, [], function () {
           called.push('b');
           txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
             called.push({'2': rowsToJson(res)});
@@ -1177,7 +1177,7 @@ describe('advanced test suite - actual DB', function () {
         txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
           called.push({'x': rowsToJson(res)});
         });
-        txn.executeSql('INSERT INTO table1 VALUES ("b")', [], function () {
+        txn.executeSql(`INSERT INTO table1 VALUES ('b')`, [], function () {
           called.push('c');
           txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
             called.push({'3': rowsToJson(res)});
@@ -1196,7 +1196,7 @@ describe('advanced test suite - actual DB', function () {
         });
         txn.executeSql('CREATE TABLE table1 (bar text);', [], function () {
           called.push('e');
-          txn.executeSql('INSERT INTO table1 VALUES ("c")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('c')`, [], function () {
             called.push('w');
             txn.executeSql('SELECT * FROM table1', [], function (txn, res) {
               called.push({'v': rowsToJson(res)});
@@ -1272,7 +1272,7 @@ describe('advanced test suite - actual DB', function () {
       db.transaction(function (txn) {
         txn.executeSql('CREATE TABLE table1 (foo text)', [], function () {
           called.push('a');
-          txn.executeSql('INSERT INTO table1 VALUES ("a")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('a')`, [], function () {
             called.push('b');
           });
         });
@@ -1308,7 +1308,7 @@ describe('advanced test suite - actual DB', function () {
       db.transaction(function (txn) {
         txn.executeSql('CREATE TABLE table1 (foo text)', [], function () {
           called.push('a');
-          txn.executeSql('INSERT INTO table1 VALUES ("a")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('a')`, [], function () {
             called.push('b');
           });
         });
@@ -1344,7 +1344,7 @@ describe('advanced test suite - actual DB', function () {
       db.transaction(function (txn) {
         txn.executeSql('CREATE TABLE table1 (foo text)', [], function () {
           called.push('a');
-          txn.executeSql('INSERT INTO table1 VALUES ("a")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('a')`, [], function () {
             called.push('b');
           });
         });
@@ -1352,22 +1352,22 @@ describe('advanced test suite - actual DB', function () {
     }).then(function () {
       return new Promise(function (resolve, reject) {
         db.transaction(function (txn) {
-          txn.executeSql('INSERT INTO table1 VALUES ("y")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('y')`, [], function () {
             called.push('d');
           });
-          txn.executeSql('INSERT INTO table1 VALUES ("z")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('z')`, [], function () {
             called.push('c');
-            txn.executeSql('INSERT INTO table1 VALUES ("v")', [], function () {
+            txn.executeSql(`INSERT INTO table1 VALUES ('v')`, [], function () {
               called.push('f');
             });
             txn.executeSql('SELECT * FROM notexist', function () {
               called.push('z');
             });
-            txn.executeSql('INSERT INTO table1 VALUES ("u")', [], function () {
+            txn.executeSql(`INSERT INTO table1 VALUES ('u')`, [], function () {
               called.push('g');
             });
           });
-          txn.executeSql('INSERT INTO table1 VALUES ("w")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('w')`, [], function () {
             called.push('e');
           });
         }, resolve, reject);
@@ -1392,7 +1392,7 @@ describe('advanced test suite - actual DB', function () {
       db.transaction(function (txn) {
         txn.executeSql('CREATE TABLE table1 (foo text)', [], function () {
           called.push('a');
-          txn.executeSql('INSERT INTO table1 VALUES ("a")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('a')`, [], function () {
             called.push('b');
           });
         });
@@ -1404,7 +1404,7 @@ describe('advanced test suite - actual DB', function () {
             called.push('d');
           });
           // readTransaction throws an error here
-          txn.executeSql('INSERT INTO table1 VALUES ("z")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('z')`, [], function () {
             called.push('c');
           });
           txn.executeSql('SELECT * FROM table1', [], function () {
@@ -1432,7 +1432,7 @@ describe('advanced test suite - actual DB', function () {
       db.transaction(function (txn) {
         txn.executeSql('CREATE TABLE table1 (foo text)', [], function () {
           called.push('a');
-          txn.executeSql('INSERT INTO table1 VALUES ("a")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('a')`, [], function () {
             called.push('b');
           });
         });
@@ -1448,7 +1448,7 @@ describe('advanced test suite - actual DB', function () {
             txn.executeSql('SELECT * FROM table1', [], function () {
               called.push('f');
               // readTransaction throws an error here
-              txn.executeSql('INSERT INTO table1 VALUES ("z")', [], function () {
+              txn.executeSql(`INSERT INTO table1 VALUES ('z')`, [], function () {
                 called.push('c');
               });
             });
@@ -1475,7 +1475,7 @@ describe('advanced test suite - actual DB', function () {
       db.transaction(function (txn) {
         txn.executeSql('CREATE TABLE table1 (foo text)', [], function () {
           called.push('a');
-          txn.executeSql('INSERT INTO table1 VALUES ("a")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('a')`, [], function () {
             called.push('b');
           });
         });
@@ -1487,7 +1487,7 @@ describe('advanced test suite - actual DB', function () {
             called.push('d');
           });
           // readTransaction throws an error here
-          txn.executeSql('INSERT INTO table1 VALUES ("z")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('z')`, [], function () {
             called.push('c');
           }, function () {
             called.push('g');
@@ -1517,7 +1517,7 @@ describe('advanced test suite - actual DB', function () {
       db.transaction(function (txn) {
         txn.executeSql('CREATE TABLE table1 (foo text)', [], function () {
           called.push('a');
-          txn.executeSql('INSERT INTO table1 VALUES ("a")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('a')`, [], function () {
             called.push('b');
           });
         });
@@ -1525,18 +1525,18 @@ describe('advanced test suite - actual DB', function () {
     }).then(function () {
       return new Promise(function (resolve, reject) {
         db.transaction(function (txn) {
-          txn.executeSql('INSERT INTO table1 VALUES ("n")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('n')`, [], function () {
             called.push('d');
           });
-          txn.executeSql('INSERT INTO yolo VALUES ("z")', [], function () {
+          txn.executeSql(`INSERT INTO yolo VALUES ('z')`, [], function () {
             called.push('c');
           }, function () {
             called.push('g');
-            txn.executeSql('INSERT INTO table1 VALUES ("p")', [], function () {
+            txn.executeSql(`INSERT INTO table1 VALUES ('p')`, [], function () {
               called.push('f');
             });
           });
-          txn.executeSql('INSERT INTO table1 VALUES ("o")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('o')`, [], function () {
             called.push('e');
           });
         }, reject, resolve);
@@ -1563,7 +1563,7 @@ describe('advanced test suite - actual DB', function () {
       db.transaction(function (txn) {
         txn.executeSql('CREATE TABLE table1 (foo text)', [], function () {
           called.push('a');
-          txn.executeSql('INSERT INTO table1 VALUES ("a")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('a')`, [], function () {
             called.push('b');
           });
         });
@@ -1571,29 +1571,29 @@ describe('advanced test suite - actual DB', function () {
     }).then(function () {
       return new Promise(function (resolve, reject) {
         db.transaction(function (txn) {
-          txn.executeSql('INSERT INTO table1 VALUES ("n")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('n')`, [], function () {
             called.push('d');
           });
-          txn.executeSql('INSERT INTO yolo VALUES ("z")', [], function () {
+          txn.executeSql(`INSERT INTO yolo VALUES ('z')`, [], function () {
             called.push('c');
           }, function () {
             called.push('g');
-            txn.executeSql('INSERT INTO yolo VALUES ("p")', [], function () {
+            txn.executeSql(`INSERT INTO yolo VALUES ('p')`, [], function () {
               called.push('f');
             }, function () {
               called.push('h');
-              txn.executeSql('INSERT INTO table1 VALUES ("x")', [], function () {
+              txn.executeSql(`INSERT INTO table1 VALUES ('x')`, [], function () {
                 called.push('i');
               });
-              txn.executeSql('INSERT INTO table1 VALUES ("y")', [], function () {
+              txn.executeSql(`INSERT INTO table1 VALUES ('y')`, [], function () {
                 called.push('j');
               });
-              txn.executeSql('INSERT INTO table1 VALUES ("z")', [], function () {
+              txn.executeSql(`INSERT INTO table1 VALUES ('z')`, [], function () {
                 called.push('k');
               });
             });
           });
-          txn.executeSql('INSERT INTO table1 VALUES ("o")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('o')`, [], function () {
             called.push('e');
           });
         }, reject, resolve);
@@ -1619,7 +1619,7 @@ describe('advanced test suite - actual DB', function () {
 
     return new Promise(function (resolve, reject) {
       db.transaction(function (txn) {
-        txn.executeSql('INSERT INTO table1 VALUES ("x")', [], function () {
+        txn.executeSql(`INSERT INTO table1 VALUES ('x')`, [], function () {
           called.push('x');
         }, function () {
           called.push('y');
@@ -1627,7 +1627,7 @@ describe('advanced test suite - actual DB', function () {
         txn.executeSql('CREATE TABLE table1 (foo text)', [], function () {
           called.push('a');
         });
-        txn.executeSql('INSERT INTO table1 VALUES ("y")', [], function () {
+        txn.executeSql(`INSERT INTO table1 VALUES ('y')`, [], function () {
           called.push('z');
         }, function () {
           called.push('w');
@@ -1651,18 +1651,18 @@ describe('advanced test suite - actual DB', function () {
 
     return new Promise(function (resolve, reject) {
       db.transaction(function (txn) {
-        txn.executeSql('INSERT INTO table1 VALUES ("x")', [], function () {
+        txn.executeSql(`INSERT INTO table1 VALUES ('x')`, [], function () {
           called.push('x');
         }, function () {
           called.push('y');
         });
         txn.executeSql('CREATE TABLE table1 (foo text)', [], function () {
           called.push('a');
-          txn.executeSql('DELETE FROM table1 WHERE foo="y"', [], function () {
+          txn.executeSql(`DELETE FROM table1 WHERE foo='y'`, [], function () {
             called.push('c');
           });
         });
-        txn.executeSql('INSERT INTO table1 VALUES ("y")', [], function () {
+        txn.executeSql(`INSERT INTO table1 VALUES ('y')`, [], function () {
           called.push('z');
         }, function () {
           called.push('w');
@@ -1689,10 +1689,10 @@ describe('advanced test suite - actual DB', function () {
         txn.executeSql('CREATE TABLE table1 (foo text)', [], function () {
           called.push('a');
         });
-        txn.executeSql('INSERT INTO table1 VALUES ("y")', [], function () {
+        txn.executeSql(`INSERT INTO table1 VALUES ('y')`, [], function () {
           called.push('b');
         });
-        txn.executeSql('DELETE FROM table1 WHERE foo="y"', [], function () {
+        txn.executeSql(`DELETE FROM table1 WHERE foo='y'`, [], function () {
           called.push('c');
         });
       }, reject, resolve);
@@ -1716,11 +1716,11 @@ describe('advanced test suite - actual DB', function () {
       db.transaction(function (txn) {
         txn.executeSql('CREATE TABLE table1 (foo text)', [], function () {
           called.push('a');
-          txn.executeSql('DELETE FROM table1 WHERE foo="y"', [], function () {
+          txn.executeSql(`DELETE FROM table1 WHERE foo='y'`, [], function () {
             called.push('c');
           });
         });
-        txn.executeSql('INSERT INTO table1 VALUES ("y")', [], function () {
+        txn.executeSql(`INSERT INTO table1 VALUES ('y')`, [], function () {
           called.push('b');
         });
       }, reject, resolve);
@@ -1745,10 +1745,10 @@ describe('advanced test suite - actual DB', function () {
         txn.executeSql('CREATE TABLE table1 (foo text)', [], function () {
           called.push('a');
         });
-        txn.executeSql('DELETE FROM table1 WHERE foo="y"', [], function () {
+        txn.executeSql(`DELETE FROM table1 WHERE foo='y'`, [], function () {
           called.push('c');
         });
-        txn.executeSql('INSERT INTO table1 VALUES ("y")', [], function () {
+        txn.executeSql(`INSERT INTO table1 VALUES ('y')`, [], function () {
           called.push('b');
         });
       }, reject, resolve);
@@ -1778,11 +1778,11 @@ describe('advanced test suite - actual DB', function () {
           txn.executeSql('CREATE TABLE table1 (foo text);', [], function () {
             called.push('c');
           });
-          txn.executeSql('INSERT INTO table1 VALUES ("x")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('x')`, [], function () {
             called.push('d');
           });
         });
-        txn.executeSql('INSERT INTO table1 VALUES ("y")', [], function () {
+        txn.executeSql(`INSERT INTO table1 VALUES ('y')`, [], function () {
           called.push('e');
         });
       }, reject, resolve);
@@ -1835,13 +1835,13 @@ describe('advanced test suite - actual DB', function () {
             called.push('f');
           });
           called.push('g');
-          txn.executeSql('INSERT INTO table1 VALUES ("x")', [], function () {
+          txn.executeSql(`INSERT INTO table1 VALUES ('x')`, [], function () {
             called.push('h');
           });
           called.push('i');
         });
         called.push('j');
-        txn.executeSql('INSERT INTO table1 VALUES ("y")', [], function () {
+        txn.executeSql(`INSERT INTO table1 VALUES ('y')`, [], function () {
           called.push('k');
         });
         called.push('l');

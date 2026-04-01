@@ -2422,7 +2422,7 @@ function WebSqlPouch(opts, callback) {
 
   function checkEncoding(tx, cb) {
     // UTF-8 on chrome/android, UTF-16 on safari < 7.1
-    tx.executeSql('SELECT HEX("a") AS hex', [], function (tx, res) {
+    tx.executeSql(`SELECT HEX('a') AS hex`, [], function (tx, res) {
         var hex = res.rows.item(0).hex;
         encoding = hex.length === 2 ? 'UTF-8' : 'UTF-16';
         cb();
