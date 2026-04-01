@@ -10,7 +10,6 @@ var debug = _interopDefault(require('debug'));
 var inherits = _interopDefault(require('inherits'));
 var lie = _interopDefault(require('lie'));
 var pouchdbCollections = require('pouchdb-collections');
-var getArguments = _interopDefault(require('argsarray'));
 var events = require('events');
 var scopedEval = _interopDefault(require('scope-eval'));
 var pouchCollate = require('pouchdb-collate');
@@ -105,7 +104,7 @@ function clone(object) {
 
 function once(fun) {
   var called = false;
-  return getArguments(function (args) {
+  return function (...args) {
     /* istanbul ignore if */
     if (called) {
       // this is a smoke test and should never actually happen
@@ -114,12 +113,12 @@ function once(fun) {
       called = true;
       fun.apply(this, args);
     }
-  });
+  };
 }
 
 function toPromise(func) {
   //create the function we will be returning
-  return getArguments(function (args) {
+  return function (...args) {
     // Clone arguments
     args = clone(args);
     var self = this;
@@ -164,7 +163,7 @@ function toPromise(func) {
       }, usedCB);
     }
     return promise;
-  });
+  };
 }
 
 var log = debug('pouchdb:api');
@@ -192,7 +191,7 @@ function adapterFun(name, callback) {
     }
   }
 
-  return toPromise(getArguments(function (args) {
+  return toPromise(function (...args) {
     if (this._closed) {
       return PouchPromise.reject(new Error('database is closed'));
     }
@@ -213,7 +212,7 @@ function adapterFun(name, callback) {
       });
     }
     return callback.apply(this, args);
-  }));
+  });
 }
 
 // this is essentially the "update sugar" function from daleharvey/pouchdb#1388
@@ -857,10 +856,10 @@ Changes.prototype.doChanges = function (opts) {
   var newPromise = this.db._changes(opts);
   if (newPromise && typeof newPromise.cancel === 'function') {
     var cancel = self.cancel;
-    self.cancel = getArguments(function (args) {
+    self.cancel = function (...args) {
       newPromise.cancel();
       cancel.apply(this, args);
-    });
+    };
   }
 };
 
@@ -1505,7 +1504,7 @@ AbstractPouchDB.prototype.post =
   });
 
 AbstractPouchDB.prototype.put =
-  adapterFun('put', getArguments(function (args) {
+  adapterFun('put', function (...args) {
     var temp, temptype, opts, callback;
     var doc = args.shift();
     var id = '_id' in doc;
@@ -1542,7 +1541,7 @@ AbstractPouchDB.prototype.put =
       }
     }
     this.bulkDocs({docs: [doc]}, opts, yankError(callback));
-  }));
+  });
 
 AbstractPouchDB.prototype.putAttachment =
   adapterFun('putAttachment', function (docId, attachmentId, rev,
@@ -4540,14 +4539,14 @@ function HttpPouch(opts, callback) {
   }
 
   function adapterFun$$(name, fun) {
-    return adapterFun(name, getArguments(function (args) {
+    return adapterFun(name, function (...args) {
       setup().then(function () {
         return fun.apply(this, args);
       }).catch(function (e) {
         var callback = args.pop();
         callback(e);
       });
-    }));
+    });
   }
 
   var setupPromise;
@@ -5452,14 +5451,14 @@ var promisedCallback$1 = function (promise, callback) {
 };
 
 var callbackify$1 = function (fun) {
-  return getArguments(function (args) {
+  return function (...args) {
     var cb = args.pop();
     var promise = fun.apply(this, args);
     if (typeof cb === 'function') {
       promisedCallback$1(promise, cb);
     }
     return promise;
-  });
+  };
 };
 
 // Promise finally util similar to Q.finally
