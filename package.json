@@ -1,5 +1,5 @@
 {
-  "name": "websql",
+  "name": "@neighbourhoodie/websql",
   "version": "2.0.3",
   "description": "WebSQL Database API, implemented for Node using sqlite3",
   "repository": {
@@ -39,6 +39,20 @@
     "coverage": "run-s test-coverage ensure-coverage"
   },
   "author": "Nolan Lawson <nolan@nolanlawson.com>",
+  "contributors": [
+    {
+      "name": "Jan Lehnardt",
+      "email": "jan@apache.org"
+    },
+    {
+      "name": "Julia Krüger",
+      "email": "juliakbln@gmail.com"
+    },
+    {
+      "name": "Alba Herrerías",
+      "email": "albaherreriasdev@gmail.com"
+    }
+  ],
   "license": "Apache-2.0",
   "dependencies": {
     "immediate": "^3.2.2",
