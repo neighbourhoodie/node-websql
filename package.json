@@ -1,13 +1,13 @@
 {
-  "name": "websql",
+  "name": "@neighbourhoodie/websql",
   "version": "2.0.3",
   "description": "WebSQL Database API, implemented for Node using sqlite3",
   "repository": {
     "type": "git",
-    "url": "git://github.com/nolanlawson/node-websql.git"
+    "url": "git://github.com/neighbourhoodie/node-websql.git"
   },
   "bugs": {
-    "url": "https://github.com/nolanlawson/node-websql/issues"
+    "url": "https://github.com/neighbourhoodie/node-websql/issues"
   },
   "main": "lib/index.js",
   "browser": {
@@ -39,14 +39,25 @@
     "coverage": "run-s test-coverage ensure-coverage"
   },
   "author": "Nolan Lawson <nolan@nolanlawson.com>",
+  "contributors": [
+    {
+      "name": "Jan Lehnardt",
+      "email": "jan@apache.org"
+    },
+    {
+      "name": "Julia Krüger",
+      "email": "juliakbln@gmail.com"
+    },
+    {
+      "name": "Alba Herrerías",
+      "email": "albaherreriasdev@gmail.com"
+    }
+  ],
   "license": "Apache-2.0",
   "dependencies": {
     "immediate": "^3.2.2",
     "noop-fn": "^1.0.0",
     "tiny-queue": "^0.2.1"
-  },
-  "optionalDependencies": {
-    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
     "assert": "1.3.0",
@@ -74,9 +85,5 @@
   "files": [
     "lib",
     "custom"
-  ],
-  "volta": {
-    "node": "16.15.1",
-    "yarn": "1.22.19"
-  }
+  ]
 }
