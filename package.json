@@ -1,6 +1,6 @@
 {
   "name": "@neighbourhoodie/websql",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "WebSQL Database API, implemented for Node using sqlite3",
   "repository": {
     "type": "git",
